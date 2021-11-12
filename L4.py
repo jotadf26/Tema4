@@ -11,7 +11,8 @@ vaC = stats.norm(5, np.sqrt(0.2))
 vaZ = stats.uniform(0, np.pi/2)
 
 # Creación del vector de tiempo
-T = 100			# número de elementos
+w = 5				# La cosntante w
+T = 100				# número de elementos
 t_final = 10		# tiempo en segundos
 t = np.linspace(0, t_final, T)
 
@@ -23,7 +24,6 @@ X_t = np.empty((N, len(t)))	# N funciones del tiempo x(t) con T puntos
 for i in range(N):
 	C = vaC.rvs()
 	Z = vaZ.rvs()
-	w = 5
 	x_t = C * np.cos(w*t + Z)
 	X_t[i,:] = x_t
 	plt.plot(t, x_t)
@@ -33,7 +33,7 @@ P = [np.mean(X_t[:,i]) for i in range(len(t))]
 plt.plot(t, P, lw=6)
 
 # Graficar el resultado teórico del valor esperado
-E = 10/np.pi(np.cos(w*t) - np.sen(w*t))
+E = 10/np.pi * (np.cos(w*t) - np.sin(w*t))
 plt.plot(t, E, '-.', lw=4)
 
 # Mostrar las realizaciones, y su promedio calculado y teórico
