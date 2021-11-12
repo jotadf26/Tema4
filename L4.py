@@ -7,12 +7,12 @@ from scipy import stats
 import matplotlib.pyplot as plt
 
 # Variables aleatorias A y Z
-vaA = stats.norm(3, np.sqrt(10))
-vaZ = stats.uniform(-np.pi/2, np.pi)
+vaC = stats.norm(5, np.sqrt(0.2))
+vaZ = stats.uniform(0, np.pi/2)
 
 # Creación del vector de tiempo
 T = 100			# número de elementos
-t_final = 10	# tiempo en segundos
+t_final = 10		# tiempo en segundos
 t = np.linspace(0, t_final, T)
 
 # Inicialización del proceso aleatorio X(t) con N realizaciones
@@ -21,9 +21,10 @@ X_t = np.empty((N, len(t)))	# N funciones del tiempo x(t) con T puntos
 
 # Creación de las muestras del proceso x(t) (A y Z independientes)
 for i in range(N):
-	A = vaA.rvs()
+	C = vaC.rvs()
 	Z = vaZ.rvs()
-	x_t = A * np.cos(np.pi*t + Z)
+	w = 5
+	x_t = C * np.cos(w*t + Z)
 	X_t[i,:] = x_t
 	plt.plot(t, x_t)
 
@@ -32,7 +33,7 @@ P = [np.mean(X_t[:,i]) for i in range(len(t))]
 plt.plot(t, P, lw=6)
 
 # Graficar el resultado teórico del valor esperado
-E = 6/np.pi * np.cos(np.pi*t)
+E = 10/np.pi(np.cos(w*t) - np.sen(w*t))
 plt.plot(t, E, '-.', lw=4)
 
 # Mostrar las realizaciones, y su promedio calculado y teórico
@@ -58,7 +59,7 @@ for n in range(N):
 	plt.plot(taus, corr[n,:])
 
 # Valor teórico de correlación
-Rxx = 19/2 * np.cos(np.pi*taus)
+Rxx = 25.2*np.cos(w*t + Z)*np.cos(w*(t + taus) + Z)
 
 # Gráficas de correlación para cada realización y la
 plt.plot(taus, Rxx, '-.', lw=4, label='Correlación teórica')
